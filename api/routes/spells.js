@@ -8,6 +8,11 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", (req, res, next) => {
+  const spell = {
+    name: req.body.name,
+    ingredients: req.body.ingredients
+  };
+
   res.status(201).json({
     message: "handling POST spells"
   });
