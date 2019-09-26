@@ -14,7 +14,8 @@ router.post("/", (req, res, next) => {
   };
 
   res.status(201).json({
-    message: "handling POST spells"
+    message: "handling POST spells",
+    request: spell
   });
 });
 

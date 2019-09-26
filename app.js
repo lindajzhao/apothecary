@@ -1,19 +1,26 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const herbsRoute = require("./api/routes/herbs");
 const spellsRoute = require("./api/routes/spells");
 
 // MIDDLEWARE
 
+mongoose.connect(
+  `mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASS}@apothecary-cluster0-sond5.mongodb.net/test?retryWrites=true&w=majority`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
+
 // logging
 app.use(morgan("dev"));
 
 // parse JSON
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
 
 // add headers
 app.use((req, res, next) => {
