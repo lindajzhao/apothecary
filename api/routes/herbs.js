@@ -5,8 +5,10 @@ const mongoose = require("mongoose");
 const Herb = require("../models/herb");
 
 router.get("/", (req, res, next) => {
-  res.status(200).json({
-    message: "handling GET herbs"
+  Herb.find().exec.then(found => {
+    res.status(200).json({
+      message: "all herbs"
+    });
   });
 });
 
