@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
-const ingredientSchema = mongoose.Schema({
+const herbSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  name: String,
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
   color: String
 });
 
-module.exports = mongoose.model("Herb", ingredientSchema);
+module.exports = mongoose.model("Herb", herbSchema);

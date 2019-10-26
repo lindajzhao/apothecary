@@ -2,25 +2,30 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
+const utils = require("../utils.js");
 const Herb = require("../models/herb");
 
 // return all herbs (find())
 router.get("/", (req, res, next) => {
   Herb.find()
+    .select("_id name price color")
     .exec()
-    .then(found => {
+    .then(herbs => {
       res.status(200).json({
-        results: found
+        count: herbs.length,
+        herbs: herbs.map(h => utils.formatHerbUrl(h))
       });
     })
     .catch(err => res.status(500).json({ error: `Error: ${err}` }));
 });
 
 router.post("/", (req, res, next) => {
+  const { name, color, price } = req.body;
   const herb = new Herb({
     _id: new mongoose.Types.ObjectId(),
-    name: req.body.name,
-    color: req.body.color
+    name,
+    color,
+    price
   });
 
   herb
@@ -41,13 +46,11 @@ router.get("/:id", (req, res, next) => {
 
   Herb.findById(id)
     .exec()
-    .then(found => {
-      console.log(found);
-
-      if (found) {
+    .then(result => {
+      if (result) {
         res.status(200).json({
           message: "Herb found by ID",
-          result: found
+          result: result
         });
       } else {
         res.status(404).json({

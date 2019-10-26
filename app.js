@@ -45,15 +45,16 @@ app.use("/herbs", herbsRoute);
 app.use("/spells", spellsRoute);
 
 // error handling
+// 404 error
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
   next(error);
 });
 
+// catch-all error
 app.use((error, req, res, next) => {
-  res.status(error.status || 500);
-  res.json({
+  res.status(error.status || 500).json({
     error: {
       message: error.message
     }
