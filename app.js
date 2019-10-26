@@ -8,13 +8,15 @@ const spellsRoute = require("./api/routes/spells");
 
 // MIDDLEWARE
 
-mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASS}@apothecary-cluster0-sond5.mongodb.net/test?retryWrites=true&w=majority`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }
-);
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_ATLAS_USER}:${process.env.MONGO_ATLAS_PASS}@apothecary-cluster0-sond5.mongodb.net/test?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
+  )
+  .catch(err => console.log("MongoDB conenction err: ", err));
 
 // logging
 app.use(morgan("dev"));
