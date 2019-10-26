@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-const utils = require("../utils.js");
+const { formatHerbUrl } = require("../utils.js");
 const Herb = require("../models/herb");
 
 // return all herbs (find())
@@ -13,10 +13,10 @@ router.get("/", (req, res, next) => {
     .then(herbs => {
       res.status(200).json({
         count: herbs.length,
-        herbs: herbs.map(h => utils.formatHerbUrl(h))
+        result: herbs.map(h => formatHerbUrl(h))
       });
     })
-    .catch(err => res.status(500).json({ error: `Error: ${err}` }));
+    .catch(error => res.status(500).json({ error }));
 });
 
 router.post("/", (req, res, next) => {
@@ -36,8 +36,8 @@ router.post("/", (req, res, next) => {
         createdHerb: saved
       });
     })
-    .catch(err => {
-      res.status(500).json({ error: `Error: ${err}` });
+    .catch(error => {
+      res.status(500).json({ error });
     });
 });
 
@@ -58,8 +58,8 @@ router.get("/:id", (req, res, next) => {
         });
       }
     })
-    .catch(err => {
-      res.status(500).json({ error: `Error: ${err}` });
+    .catch(error => {
+      res.status(500).json({ error });
     });
 });
 
@@ -70,8 +70,8 @@ router.patch("/:id", (req, res, next) => {
   Herb.update({ _id }, { $set: { ...req.body } })
     .exec()
     .then(result => res.status(200).json(result))
-    .catch(err => {
-      res.status(500).json({ error: `Error: ${err}` });
+    .catch(error => {
+      res.status(500).json({ error });
     });
 });
 
@@ -83,8 +83,8 @@ router.delete("/:id", (req, res, next) => {
     .then(result => {
       res.status(200).json(result);
     })
-    .catch(err => {
-      res.status(500).json({ error: `Error: ${err}` });
+    .catch(error => {
+      res.status(500).json({ error });
     });
 });
 
