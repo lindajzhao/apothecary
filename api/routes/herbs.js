@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const upload = require("../middleware/multerconfig");
 
 const { formatHerbUrl } = require("../utils.js");
 const Herb = require("../models/herb");
@@ -8,7 +9,6 @@ const Herb = require("../models/herb");
 // return all herbs (find())
 router.get("/", (req, res, next) => {
   Herb.find()
-    .select("_id name price color")
     .exec()
     .then(herbs => {
       res.status(200).json({
@@ -19,13 +19,16 @@ router.get("/", (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", upload.single("image"), (req, res, next) => {
+  console.log("fileee", req.file);
+  const { path: image } = req.file;
   const { name, color, price } = req.body;
   const herb = new Herb({
     _id: new mongoose.Types.ObjectId(),
     name,
     color,
-    price
+    price,
+    image
   });
 
   herb

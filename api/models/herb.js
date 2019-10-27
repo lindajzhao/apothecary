@@ -4,7 +4,8 @@ const herbSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   name: { type: String, required: true },
   price: { type: Number, required: true },
-  color: String
+  color: String,
+  image: String
 });
 
 module.exports = mongoose.model("Herb", herbSchema);

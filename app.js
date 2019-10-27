@@ -24,6 +24,9 @@ app.use(morgan("dev"));
 // parse JSON
 app.use(express.json());
 
+// static /uploads route
+app.use("/uploads", express.static("uploads"));
+
 // add headers
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
